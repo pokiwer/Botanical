@@ -44,6 +44,7 @@ class AdminTreeTypeController extends Controller
      */
     public function show(string $id)
     {
+        return view('admin.tree_types.show');
     }
 
     /**

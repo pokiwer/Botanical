@@ -1,8 +1,6 @@
 @extends('admin.dashboard')
 @section('title', 'Menu')
 @section('content')
-
-
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -11,14 +9,9 @@
                         <h5 class="card-title">Datatables</h5>
                         <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                             <div class="datatable-top">
-                                <!-- <div class="datatable-search">
-                                                                                                              <input
-                                                                                                                class="datatable-input"
-                                                                                                                placeholder="Search..."
-                                                                                                                type="search"
-                                                                                                                title="Search within table"
-                                                                                                              />
-                                                                                                            </div> -->
+                                <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addModal">
+                                    <i class="bi bi-plus"></i> Add new menu
+                                </button>
                             </div>
                             <div class="datatable-container">
                                 <table class="table datatable datatable-table">
@@ -60,16 +53,13 @@
                                                 </td>
 
                                                 <td>
-                                                    <a href="google.com"><button class="btn btn-primary btn-sm me-2">
-                                                            <i class="bi bi-eye"></i>
-                                                        </button></a>
-
-                                                    <button class="btn btn-danger btn-sm me-2">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-
-                                                    <button class="btn btn-warning btn-sm">
+                                                    <button class="btn btn-warning btn-sm edit-btn" data-bs-toggle="modal"
+                                                        value="{{ $menu->id }} ">
                                                         <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm me-2 delete-btn"
+                                                        value="{{ $menu->id }}">
+                                                        <i class="bi bi-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -86,4 +76,46 @@
             </div>
         </div>
     </section>
+    @include('admin.menus.create')
+    @include('modals.delete')
+    @include('admin.menus.edit')
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit-btn', function(event) {
+                event.preventDefault();
+                var id = $(this).val();
+                $('#editModal').modal('show');
+                $.ajax({
+                    type: 'GET',
+                    url: '/admin/menu/' + id + '/edit',
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const indexList = document.getElementById("index-list");
+            const sortable = new Sortable(indexList, {
+                animation: 150,
+                ghostClass: "sortable-ghost",
+            });
+
+            const saveButton = document.getElementById("saveButton");
+            saveButton.addEventListener("click", function() {
+                const listItems = indexList.querySelectorAll("li");
+                listItems.forEach((item, index) => {
+                    const menuNameInput = item.querySelector(".menu-name-input");
+                    console.log(
+                        `Item with ID ${item.getAttribute("data-id")} with index ${index} has new name: ${menuNameInput.value}`
+                    );
+                    // Tại đây bạn có thể cập nhật dữ liệu của menu dựa trên tên mới
+                });
+                $('#editModal').modal('hide'); // Đóng modal sau khi lưu
+            });
+        });
+    </script>
+
 @endsection

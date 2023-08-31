@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Blog;
+use Sunra\PhpSimple\HtmlDomParser;
 use Illuminate\Http\Request;
 
 class AdminBlogController extends Controller
@@ -12,7 +15,9 @@ class AdminBlogController extends Controller
      */
     public function index()
     {
-        return 'Admin blog';
+        $blogs = Blog::with('admin')->orderBy('id', 'desc')->get();
+        $posters = Admin::select('id', 'name')->get();
+        return view('admin.blogs.index', compact('blogs', 'posters'));
     }
 
     /**
@@ -20,7 +25,7 @@ class AdminBlogController extends Controller
      */
     public function create()
     {
-        return 'create';
+        return view('admin.blogs.create');
     }
 
     /**
@@ -28,7 +33,35 @@ class AdminBlogController extends Controller
      */
     public function store(Request $request)
     {
-        return 'store';
+        $blogstatus = $request->has('blogstatus') ? 1 : 0;
+        $content = $request->content;
+
+        $dom = \HtmlDomParser::str_get_html($content);
+
+        $images = $dom->find('img');
+
+        foreach ($images as $key => $img) {
+            $data = base64_decode(explode(',', explode(';', $img->getAttribute('src'))[1])[1]);
+            $image_name = "/images/" . time() . $key . '.png';
+            file_put_contents(public_path() . $image_name, $data);
+
+            $new_img = new \simple_html_dom_node('img');
+            $new_img->src = $image_name;
+
+            $img->outertext = $new_img->outertext;
+        }
+
+        $content = $dom->save();
+
+        $validatedData = [
+            'title' => $request->title,
+            'content' => $content,
+            'admin_id' => $request->admin_id,
+            'blogstatus' => $blogstatus
+        ];
+
+        Blog::create($validatedData);
+        return redirect()->route('blog.index')->with('success', 'blog created successfully.');
     }
 
     /**
@@ -36,7 +69,11 @@ class AdminBlogController extends Controller
      */
     public function show(string $id)
     {
-        return 'show';
+        // $blog = Blog::find($id);
+        // return response()->json([
+        //     'status' => 200,
+        //     'blog'  =>  $blog,
+        // ]);
     }
 
     /**

@@ -16,7 +16,7 @@
                                 <form id="editForm" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <input type="hidden" id="id" name="id">
+                                    <input type="hidden" id="treetypeid" name="id">
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">Tên loại
                                             cây</label>

@@ -10,41 +10,24 @@
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item ">
-            <a class="nav-link collapsed" data-bs-target="#menu-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Menu</span><i
-                    class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link collapsed" href="{{ route('menu.index') }}">
+                <i class="bi bi-menu-button-wide"></i><span>Menu</span>
             </a>
-            <ul id="menu-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ route('menu.create') }}">
-                        <i class="bi bi-circle"></i><span>Add new menu</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('menu.index') }}">
-                        <i class="bi bi-circle"></i><span>Data Tables</span>
-                    </a>
-                </li>
-            </ul>
+
         </li><!-- End Tables Nav -->
+        {{-- Blogs --}}
+        <li class="nav-item ">
+            <a class="nav-link collapsed" href="{{ route('blog.index') }}">
+                <i class="bi bi-journal-text"></i><span>Blog</span>
+            </a>
+
+        </li>
 
         <li class="nav-item ">
-            <a class="nav-link collapsed" data-bs-target="#category-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Loại cây</span><i
-                    class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link collapsed" href="{{ route('tree_type.index') }}">
+                <i class="bi bi-tree-fill"></i><span>Loại cây</span>
             </a>
-            <ul id="category-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ route('tree_type.create') }}">
-                        <i class="bi bi-circle"></i><span>Add new type</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('tree_type.index') }}">
-                        <i class="bi bi-circle"></i><span>Data Tables</span>
-                    </a>
-                </li>
-            </ul>
+
         </li>
 
         <li class="nav-item">

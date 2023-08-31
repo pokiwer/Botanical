@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('admin_id')->references('id')->on('admins');
             $table->string('title');
-            $table->text('content');
+            $table->longText('content');
             //0->hide, 1->show
             $table->boolean('blogstatus');
             $table->timestamps();

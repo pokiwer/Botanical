@@ -22,8 +22,8 @@ class AdminMenuController extends Controller
      */
     public function create()
     {
-        $menu = Menu::max('menuindex');
-        return view('admin.menus.create', compact('menu'));
+
+        return view('admin.menus.create');
     }
 
     /**
@@ -33,11 +33,11 @@ class AdminMenuController extends Controller
     {
 
         $status = $request->has('menustatus') ? 1 : 0;
-
+        $index = Menu::max('menuindex');
         $validatedData = $request->validate([
             'name' => 'required',
-            'menuindex' => 'required',
         ]);
+        $validatedData['menuindex'] = $index + 1;
         $validatedData['menustatus'] = $status;
         Menu::create($validatedData);
         return redirect()->route('menu.index')->with('success', 'menu created successfully.');
@@ -48,15 +48,19 @@ class AdminMenuController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('admin.menus.show');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $menu = Menu::find($id);
+        return response()->json([
+            'status' => 200,
+            'menu' => $menu
+        ]);
     }
 
     /**
@@ -72,6 +76,8 @@ class AdminMenuController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $menu = Menu::find($id);
+        $menu->delete();
+        return redirect()->route('menu.index');
     }
 }

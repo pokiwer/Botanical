@@ -76,7 +76,7 @@
                 event.preventDefault();
                 var treetype = $(this).val();
                 var treetypeValue = JSON.parse(treetype);
-                $('#id').val(treetypeValue.id);
+                $('#treetypeid').val(treetypeValue.id);
                 $('#name').val(treetypeValue.name);
                 $('#editForm').attr('action', '/admin/tree_type/' + id);
                 $('#editTreeType').modal('show');
@@ -86,7 +86,7 @@
             $(document).on('click', '.delete-btn', function(event) {
                 event.preventDefault();
                 var id = $(this).val();
-                $('#treetype_id').val(id);
+                $('#id').val(id);
                 $('#deleteForm').attr('action', '/admin/tree_type/' + id);
                 $('#deleteModal').modal('show');
             });

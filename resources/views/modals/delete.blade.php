@@ -12,7 +12,7 @@
                 @method('DELETE')
                 <div class="modal-body">
                     Bạn có chắc muốn xóa bản ghi này?
-                    <input type="hidden" name="id" id="treetype_id">
+                    <input type="hidden" name="id" id="id">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
